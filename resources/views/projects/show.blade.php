@@ -18,7 +18,7 @@
             <p><strong>Deadline:</strong> {{ $project->deadline }}</p>
         </div>
 
-        <!-- Issues Section -->
+        <!-- IssueController Section -->
         <div class="mb-4 flex justify-between items-center">
             <h3 class="text-xl font-semibold">Issues</h3>
 {{--            <a href="{{ route('issues.create', ['project_id' => $project->id]) }}"--}}

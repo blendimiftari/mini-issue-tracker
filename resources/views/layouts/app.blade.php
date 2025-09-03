@@ -15,15 +15,15 @@
             🐞 Issue Tracker
         </div>
         <nav class="flex-1 p-4 space-y-2">
-            <a href="{{--{{ route('projects.index') }}--}}"
+            <a href="{{ route('projects.index') }}"
                class="block px-4 py-2 rounded-lg hover:bg-gray-800 transition">
                 📁 Projects
             </a>
-            <a href="{{--  {{ route('issues.index') }} --}}"
+            <a href="  {{ route('issues.index') }} "
                class="block px-4 py-2 rounded-lg hover:bg-gray-800 transition">
                 📝 Issues
             </a>
-            <a href="{{--{{ route('tags.index') }}--}}"
+            <a href="{{ route('tags.index') }}"
                class="block px-4 py-2 rounded-lg hover:bg-gray-800 transition">
                 🏷️ Tags
             </a>
@@ -57,7 +57,6 @@
         </main>
     </div>
 </div>
-
 @yield('scripts')
 </body>
 </html>
