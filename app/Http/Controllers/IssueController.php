@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AttachTagRequest;
 use App\Http\Requests\StoreIssueRequest;
-use App\Http\Requests\UpdateIssueRequest;
 use App\Models\Issue;
 use Illuminate\Http\Request;
 use App\Models\Project;

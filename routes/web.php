@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,8 @@ Route::resource('tags', TagController::class);
 
 Route::post('/issues/{issue}/attach-tag', [IssueController::class, 'attachTag']);
 Route::post('/issues/{issue}/detach-tag/{tag}', [IssueController::class, 'detachTag']);
+
+Route::prefix('issues/{issue}')->group(function (){
+    Route::get('comments', [CommentController::class, 'index']);
+    Route::post('comments', [CommentController::class, 'store']);
+});

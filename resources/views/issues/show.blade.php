@@ -40,7 +40,7 @@
                     <p class="font-semibold ">Tags: </p>
                     <div id="attached-tags" class="flex flex-wrap gap-2 mb-2 ml-2 ">
                         @foreach($issue->tags as $tag)
-                            <span class="tag-badge px-2 py-1 rounded flex items-center cursor-pointer attached-tag"
+                            <span class="tag-badge text-sm px-2 py-1 rounded flex items-center cursor-pointer attached-tag"
                                   style="background-color: {{ $tag->color ?? '#3b82f6' }}; color: white;"
                                   data-id="{{ $tag->id }}">
                                          {{ $tag->name }}
@@ -64,7 +64,7 @@
                     <p class="text-gray-500">No available tags.</p>
                 @else
                     @foreach($availableTags as $tag)
-                        <span class="tag-badge px-2 py-1 rounded flex items-center cursor-pointer available-tag"
+                        <span class="tag-badge text-sm px-2 py-1 rounded flex items-center cursor-pointer available-tag"
                               style="background-color: {{ $tag->color ?? '#3b82f6' }}; color: white;"
                               data-id="{{ $tag->id }}">
                     {{ $tag->name }}
@@ -76,45 +76,34 @@
 
 
 
-
-
-
-
-
-
-        <!-- Comments Section -->
         <div class="mb-6">
-            <h3 class="font-semibold mb-2">Comments</h3>
 
-{{--            <div id="comments-list" class="flex flex-col gap-2">--}}
-{{--                @forelse($comments as $comment)--}}
-{{--                    <div class="border p-4 rounded">--}}
-{{--                        <strong>{{ $comment->author_name }}</strong>--}}
-{{--                        <p>{{ $comment->body }}</p>--}}
-{{--                        <small class="text-gray-500">{{ $comment->created_at->diffForHumans() }}</small>--}}
-{{--                    </div>--}}
-{{--                @empty--}}
-{{--                    <p class="text-center text-gray-500">No comments yet.</p>--}}
-{{--                @endforelse--}}
-{{--            </div>--}}
 
-{{--            @if($comments->hasMorePages())--}}
-{{--                <div class="mt-4 text-center">--}}
-{{--                    <button id="load-more-comments" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Load More</button>--}}
-{{--                </div>--}}
-{{--            @endif--}}
 
-            <!-- Add Comment -->
-            <div class="mt-6">
+            <div class="mt-6 w-1/2">
                 <h4 class="font-semibold mb-2">Add Comment</h4>
                 <form id="comment-form" class="flex flex-col gap-2">
                     @csrf
-                    <input type="text" name="author_name" placeholder="Your Name" class="border p-2 rounded w-full" required>
+                    <input type="text" name="author_name" placeholder="Your Name" class="border p-2 rounded w-1/2" required>
                     <textarea name="body" placeholder="Comment" class="border p-2 rounded w-full" required></textarea>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Comment</button>
+                    <div class="flex justify-end mt-2">
+                        <button type="submit"
+                                class="bg-blue-500 w-24 text-sm text-white px-4 py-2 rounded hover:bg-blue-600">
+                            Comment
+                        </button>
+                    </div>
                 </form>
                 <p id="comment-error" class="text-red-500 mt-2 hidden"></p>
             </div>
+
+            <div class="w-1/2 mt-4">
+                <h3 class="font-semibold mb-2 ">Comments</h3>
+                <div id="comments-section ">
+                    @include('comments.list', ['comments' => $issue->comments()->latest()->paginate(5)])
+                </div></div>
+
+
+
         </div>
 
     </div>
@@ -192,7 +181,7 @@
                 }
             });
 
-            // Add Comment
+
             const commentForm = document.getElementById('comment-form');
             const commentError = document.getElementById('comment-error');
             commentForm.addEventListener('submit', async (e)=>{
@@ -207,12 +196,15 @@
                     });
                     const data = await res.json();
                     if(data.status==='success'){
-                        // append comment
                         const div = document.createElement('div');
-                        div.classList.add('border','p-4','rounded');
+                        const noCommentsMsg = document.getElementById('empty-comments');
+                        if(noCommentsMsg) noCommentsMsg.remove();
+
+                        div.classList.add('border','p-2','rounded', 'text-sm', 'bg-gray-50');
                         div.innerHTML = `<strong>${data.comment.author_name}</strong>
                                  <p>${data.comment.body}</p>
-                                 <small class="text-gray-500">just now</small>`;
+                                 <small class="text-gray-500 text-xs">just now</small>`;
+
                         document.getElementById('comments-list').prepend(div);
                         commentForm.reset();
                     } else if(data.errors){
